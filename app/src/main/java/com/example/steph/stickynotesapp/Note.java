@@ -8,7 +8,6 @@ import java.util.Date;
 /**
  * Created by steph on 1/1/2017.
  */
-
 public class Note implements Parcelable {
     private String title;
     private String Description;
@@ -16,10 +15,22 @@ public class Note implements Parcelable {
     private Date CreateDate;
     private Date LastModified;
 
+    /**
+     * Instantiates a new Note.
+     */
     public Note() {
     }
 
 
+    /**
+     * Instantiates a new Note.
+     *
+     * @param title        the title
+     * @param description  the description
+     * @param content      the content
+     * @param createDate   the create date
+     * @param lastModified the last modified
+     */
     public Note(String title, String description, String content, Date createDate, Date lastModified) {
         this.title = title;
         Description = description;
@@ -28,6 +39,11 @@ public class Note implements Parcelable {
         LastModified = lastModified;
     }
 
+    /**
+     * Instantiates a new Note.
+     *
+     * @param in the in
+     */
     protected Note(Parcel in) {
         title = in.readString();
         Description = in.readString();
@@ -36,6 +52,9 @@ public class Note implements Parcelable {
         LastModified = new Date(in.readLong());
     }
 
+    /**
+     * The constant CREATOR.
+     */
     public static final Creator<Note> CREATOR = new Creator<Note>() {
         @Override
         public Note createFromParcel(Parcel in) {
@@ -48,42 +67,92 @@ public class Note implements Parcelable {
         }
     };
 
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Sets title.
+     *
+     * @param title the title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Gets description.
+     *
+     * @return the description
+     */
     public String getDescription() {
         return Description;
     }
 
+    /**
+     * Sets description.
+     *
+     * @param description the description
+     */
     public void setDescription(String description) {
         Description = description;
     }
 
+    /**
+     * Gets content.
+     *
+     * @return the content
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * Sets content.
+     *
+     * @param content the content
+     */
     public void setContent(String content) {
         this.content = content;
     }
 
+    /**
+     * Gets create date.
+     *
+     * @return the create date
+     */
     public Date getCreateDate() {
         return CreateDate;
     }
 
+    /**
+     * Sets create date.
+     *
+     * @param createDate the create date
+     */
     public void setCreateDate(Date createDate) {
         CreateDate = createDate;
     }
 
+    /**
+     * Gets last modified.
+     *
+     * @return the last modified
+     */
     public Date getLastModified() {
         return LastModified;
     }
 
+    /**
+     * Sets last modified.
+     *
+     * @param lastModified the last modified
+     */
     public void setLastModified(Date lastModified) {
         LastModified = lastModified;
     }

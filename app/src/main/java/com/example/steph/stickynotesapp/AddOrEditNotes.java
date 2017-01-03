@@ -14,10 +14,25 @@ import java.util.Date;
 /**
  * Note activity
  * it allows the user to view, edit, save, lock and delete Notes
- **/
+ */
 public class AddOrEditNotes extends AppCompatActivity {
-    EditText titleedt, descriptioedt, contentedt;
+    /**
+     * The Titleedt.
+     */
+    EditText titleedt, /**
+     * The Descriptioedt.
+     */
+    descriptioedt, /**
+     * The Contentedt.
+     */
+    contentedt;
+    /**
+     * The Date.
+     */
     Date date;
+    /**
+     * The Oldtitle.
+     */
     String oldtitle;
 
     @Override
@@ -41,17 +56,19 @@ public class AddOrEditNotes extends AppCompatActivity {
      * setUpEditableNotes
      * gets intent from previous activity.
      * if the intent has a note object as an extra it will appropriately fill the edit Texts
+     *
+     * @param intent the intent
      */
     public void setUpEditableNotes(Intent intent) {
         if (intent.getExtras() != null) {
             Note note = intent.getExtras().getParcelable(MainActivity.Note);
             if (note != null) {
 
-                String content = note.getContent().toString();
+                String content = note.getContent();
 
-                String title = note.getTitle().toString();
+                String title = note.getTitle();
                 oldtitle = title;
-                String Description = note.getDescription().toString();
+                String Description = note.getDescription();
 
                 descriptioedt.setText(Description);
                 titleedt.setText(title);
@@ -80,7 +97,7 @@ public class AddOrEditNotes extends AppCompatActivity {
      **/
     public boolean onOptionsItemSelected(MenuItem item) {
         NoteDB noteDB = new NoteDB(this);
-        long result = 0;
+        long result;
         String title = titleedt.getText().toString();
         String description = descriptioedt.getText().toString();
         String content = contentedt.getText().toString();
@@ -103,9 +120,9 @@ public class AddOrEditNotes extends AppCompatActivity {
                         result = noteDB.editNote(note, oldtitle);
                     }
                     if (result > 0) {
-                        Toast.makeText(AddOrEditNotes.this, note.getTitle().toString() + " was saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddOrEditNotes.this, note.getTitle() + " was saved", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(AddOrEditNotes.this, note.getTitle().toString() + "could not be saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddOrEditNotes.this, note.getTitle() + "could not be saved", Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 case R.id.action_delete:
@@ -113,10 +130,10 @@ public class AddOrEditNotes extends AppCompatActivity {
 
                         result = noteDB.removeNotes(note);
                         if (result > 0) {
-                            Toast.makeText(AddOrEditNotes.this, note.getTitle().toString() + " was deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + " was deleted", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toast.makeText(AddOrEditNotes.this, note.getTitle().toString() + "could not be deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + "could not be deleted", Toast.LENGTH_SHORT).show();
                         }
 
 

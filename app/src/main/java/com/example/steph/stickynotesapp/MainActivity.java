@@ -20,9 +20,15 @@ import java.util.List;
 
 /**
  * main activity
- **/
+ */
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+    /**
+     * The List view.
+     */
     ListView listView;
+    /**
+     * The constant Note.
+     */
     public static final String Note = "note";
 
     @Override
@@ -108,7 +114,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     /**
      * sends the user to the AddOrEdit activity
-     **/
+     *
+     * @param view the view
+     */
     public void goToAdd(View view) {
         Intent intent = new Intent(this, AddOrEditNotes.class);
         startActivity(intent);
@@ -116,12 +124,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     /**
      * custom array adapter to handle Note objects
-     **/
+     */
     public static class NoteAdapter extends ArrayAdapter<Note> {
         private final Context context;
         private final ArrayList<Note> data;
         private final int layoutResourceId;
 
+        /**
+         * Instantiates a new Note adapter.
+         *
+         * @param context          the context
+         * @param layoutResourceId the layout resource id
+         * @param data             the data
+         */
         public NoteAdapter(Context context, int layoutResourceId, ArrayList<Note> data) {
             super(context, layoutResourceId, data);
             this.context = context;
@@ -154,9 +169,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return row;
         }
 
+        /**
+         * The type View holder.
+         */
         static class ViewHolder {
+            /**
+             * The Text view 1.
+             */
             TextView textView1;
+            /**
+             * The Text view 2.
+             */
             TextView textView2;
+            /**
+             * The Text view 3.
+             */
             TextView textView3;
         }
     }

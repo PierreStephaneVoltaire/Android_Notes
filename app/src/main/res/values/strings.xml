@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Sticky Notes App</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="note">Note</string>
+    <string name="description">Description</string>
+    <string name="writestuff">write something</string>
+</resources>

@@ -107,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Intent intent = new Intent(this, AddOrEditNotes.class);
         NoteDB noteDB = new NoteDB(this);
         ArrayList<Note> notes = noteDB.getNote(textView1.getText().toString());
-        Note note = new Note(textView1.getText().toString(), textView2.getText().toString(), notes.get(0).getContent(), notes.get(0).getCreateDate(), notes.get(0).getLastModified());
+        int locked=notes.get(0).getLocked();
+        Note note = new Note(textView1.getText().toString(), textView2.getText().toString(), notes.get(0).getContent(), notes.get(0).getCreateDate(), notes.get(0).getLastModified(),locked);
         intent.putExtra(Note, note);
         startActivity(intent);
     }

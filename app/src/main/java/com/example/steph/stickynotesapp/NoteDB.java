@@ -25,7 +25,7 @@ public class NoteDB {
     private final static String COLUMN_CONTENT = "content";
     private final static String COLUMN_BUILDDATE = "buildate";
     private final static String COLUMN_LASTMODIFIEDDATE = "lastmodified";
-
+    private final static String COLUMN_LOCKED = "locked";
     public NoteDB(Context context) {
         this.context = context;
         openHelper = new MyOpenHelper(context);
@@ -36,10 +36,11 @@ public class NoteDB {
     private final static String CREATE_TABLE =
             "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TITLE + " TEXT NOT NULL, " +
+                    COLUMN_TITLE + " TEXT NOT NULL UNIQUE, " +
                     COLUMN_DESCRIPTION + " TEXT, " +
                     COLUMN_CONTENT + " TEXT, " +
                     COLUMN_LASTMODIFIEDDATE + " DATE, " +
+                    COLUMN_LOCKED + " INTEGER NOT NULL , " +
                     COLUMN_BUILDDATE + " DATE NOT NULL)";
 
 /**deletes note from the database**/
@@ -62,6 +63,7 @@ public class NoteDB {
         cv.put(COLUMN_CONTENT, note.getContent());
         cv.put(COLUMN_BUILDDATE, note.getCreateDate().toString());
         cv.put(COLUMN_LASTMODIFIEDDATE, note.getLastModified().toString());
+        cv.put(COLUMN_LOCKED, note.getLocked());
 
 
         database = openHelper.getWritableDatabase();
@@ -84,7 +86,7 @@ public class NoteDB {
         cv.put(COLUMN_CONTENT, note.getContent());
         cv.put(COLUMN_BUILDDATE, note.getCreateDate().toString());
         cv.put(COLUMN_LASTMODIFIEDDATE, note.getLastModified().toString());
-
+        cv.put(COLUMN_LOCKED, note.getLocked());
 
         database = openHelper.getWritableDatabase();
 
@@ -121,8 +123,9 @@ public class NoteDB {
             String noteContent = cursor.getString(cursor.getColumnIndex(COLUMN_CONTENT));
             Date noteBuildDate = new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_BUILDDATE)) * 1000);
             Date noteModifiedDate = new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_LASTMODIFIEDDATE)) * 1000);
+           int locked=cursor.getInt(cursor.getColumnIndex(COLUMN_LOCKED));
 
-            note = new Note(noteTitle, noteDescription, noteContent, noteBuildDate, noteModifiedDate);
+            note = new Note(noteTitle, noteDescription, noteContent, noteBuildDate, noteModifiedDate,locked);
             noteList.add(note);
         }
         database.close();

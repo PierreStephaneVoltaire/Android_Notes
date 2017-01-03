@@ -34,7 +34,7 @@ public class AddOrEditNotes extends AppCompatActivity {
      * The Oldtitle.
      */
     String oldtitle;
-
+    int locked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +47,7 @@ public class AddOrEditNotes extends AppCompatActivity {
         contentedt = (EditText) findViewById(R.id.notecontentedtext);
         Intent intent = getIntent();
         date = null;
+         locked=1;
         setUpEditableNotes(intent);
 
 
@@ -76,6 +77,7 @@ public class AddOrEditNotes extends AppCompatActivity {
                 descriptioedt.setEnabled(false);
                 titleedt.setEnabled(false);
                 contentedt.setEnabled(false);
+                locked=note.getLocked();
 
                 date = note.getCreateDate();
             }
@@ -103,7 +105,7 @@ public class AddOrEditNotes extends AppCompatActivity {
         String content = contentedt.getText().toString();
         if (title.trim().length() != 0 || title != null) {
 
-            Note note = new Note(title, description, content, date, Calendar.getInstance().getTime());
+            Note note = new Note(title, description, content, date, Calendar.getInstance().getTime(),locked);
             // Handle item selection
             switch (item.getItemId()) {
                 case R.id.action_edit:
@@ -142,6 +144,21 @@ public class AddOrEditNotes extends AppCompatActivity {
 
                     return true;
                 case R.id.action_lock:
+                    note.setLocked(0);
+
+                    if (note.getCreateDate() != null) {
+
+                        result = noteDB.editNote(note, oldtitle);
+                        if (result > 0) {
+                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + " was locked", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + "could not be locked", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                 else{
+                        Toast.makeText(AddOrEditNotes.this, note.getTitle() + "please save the note before locking it", Toast.LENGTH_SHORT).show();
+                    }
 
                     return true;
                 default:

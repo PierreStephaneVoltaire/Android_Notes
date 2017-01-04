@@ -52,8 +52,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = (ListView) findViewById(R.id.listView);
+
         profilePrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
+
 
     @Override
     protected void onResume() {
@@ -99,36 +101,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 return true;
             case R.id.action_setting:
                 intent = new Intent(this, Settings.class);
-                if (profilePrefs.getString("Password", null).isEmpty()) {
-                    startActivity(intent);
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Lock password");
+                try {
+                    if (profilePrefs.getString("Password", null).isEmpty()) {
+                        startActivity(intent);
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Lock password");
 // Set up the input
-                    final EditText input = new EditText(this);
-                    input.setHint("please enter your password");
+                        final EditText input = new EditText(this);
+                        input.setHint("please enter your password");
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-                    input.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                    builder.setView(input);
+                        input.setInputType(InputType.TYPE_NUMBER_VARIATION_NORMAL | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        builder.setView(input);
 // Set up the buttons
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            m_Text = input.getText().toString();
-                            if (m_Text.matches(profilePrefs.getString("Password", null))) {
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(MainActivity.this, "Wrong password\n Hint: " + profilePrefs.getString("Hint", null), Toast.LENGTH_LONG).show();
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                m_Text = input.getText().toString();
+                                if (m_Text.matches(profilePrefs.getString("Password", null))) {
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(MainActivity.this, "Wrong password\n Hint: " + profilePrefs.getString("Hint", null), Toast.LENGTH_LONG).show();
+                                }
                             }
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    builder.show();
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                    }
+                } catch (NullPointerException ex) {
+                    startActivity(intent);
                 }
                 return true;
             default:
@@ -142,36 +148,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         final TextView textView2 = (TextView) view.findViewById(R.id.noteDescription);
         NoteDB noteDB = new NoteDB(this);
         final ArrayList<Note> notes = noteDB.getNote(textView1.getText().toString());
-        if (notes.get(0).getLocked() == 1 || profilePrefs.getString("Password", null).isEmpty()) {
-            addOrEditNote(view, notes, textView1, textView2);
-        } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Lock password");
+        try {
+
+
+            if (notes.get(0).getLocked() == 1 || profilePrefs.getString("Password", null).isEmpty()) {
+                addOrEditNote(view, notes, textView1, textView2);
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Lock password");
 // Set up the input
-            final EditText input = new EditText(this);
-            input.setHint("please enter your password");
+                final EditText input = new EditText(this);
+                input.setHint("please enter your password");
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-            input.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-            builder.setView(input);
+                input.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                builder.setView(input);
 // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    m_Text = input.getText().toString();
-                    if (m_Text.matches(profilePrefs.getString("Password", null))) {
-                        addOrEditNote(view, notes, textView1, textView2);
-                    } else {
-                        Toast.makeText(MainActivity.this, "Wrong password\n Hint: " + profilePrefs.getString("Hint", null), Toast.LENGTH_LONG).show();
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        m_Text = input.getText().toString();
+                        if (m_Text.matches(profilePrefs.getString("Password", null))) {
+                            addOrEditNote(view, notes, textView1, textView2);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Wrong password\n Hint: " + profilePrefs.getString("Hint", null), Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            builder.show();
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+            }
+        } catch (NullPointerException ex) {
+
+            addOrEditNote(view, notes, textView1, textView2);
         }
     }
 

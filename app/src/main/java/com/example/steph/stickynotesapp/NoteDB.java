@@ -139,13 +139,13 @@ public class NoteDB {
 
             database = openHelper.getReadableDatabase();
 
-            cursor = database.query(TABLE_NAME, null, null, null, null, null, null);
+            cursor = database.query(TABLE_NAME,null, null, null, null, null, null);
 
 
         }
         ArrayList<Note> noteList = new ArrayList<Note>();
         Note note = null;
-
+if (cursor!=null){
         while (cursor.moveToNext()) {
             String noteTitle = cursor.getString(cursor.getColumnIndex(COLUMN_TITLE));
             String noteDescription = cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPTION));
@@ -156,7 +156,7 @@ public class NoteDB {
 
             note = new Note(noteTitle, noteDescription, noteContent, noteBuildDate, noteModifiedDate,locked);
             noteList.add(note);
-        }
+        }}
         database.close();
 
         return noteList;

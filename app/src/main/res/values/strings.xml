@@ -4,4 +4,5 @@
     <string name="note">Note</string>
     <string name="description">Description</string>
     <string name="writestuff">write something</string>
+    <string name="about_text">This is a simple note app that lets you create notes, edit , save, delete, and lock them with a password\n to use the lock functionality please go to the settings screen and set up a 4 digit password and optionally a hint to remember it.\n Once you\'ve set up a password you will be required to enter it when trying to access the settings screen again.</string>
 </resources>

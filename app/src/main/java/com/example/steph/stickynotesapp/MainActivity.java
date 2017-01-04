@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         NoteDB db = new NoteDB(this);
         String title = null;
         ArrayList<Note> noteArrayList = db.getNote(title);
-        List<Note> list = new ArrayList<Note>();
+        List<Note> list = new ArrayList<>();
         if (noteArrayList != null) {
             int size = noteArrayList.size();
             for (int i = 0; i < size; i++) {
@@ -94,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case R.id.action_about:
                 intent = new Intent(this, About.class);
                 startActivity(intent);
+                return true;
+            case android.R.id.home:
+                finish();
                 return true;
             case R.id.action_add:
                 intent = new Intent(this, AddOrEditNotes.class);
@@ -239,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (row == null) {
                 LayoutInflater inflater = ((Activity) context).getLayoutInflater();
                 row = inflater.inflate(layoutResourceId, parent, false);

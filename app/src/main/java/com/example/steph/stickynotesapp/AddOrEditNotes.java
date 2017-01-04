@@ -107,7 +107,7 @@ public class AddOrEditNotes extends AppCompatActivity {
         String title = titleedt.getText().toString();
         String description = descriptioedt.getText().toString();
         String content = contentedt.getText().toString();
-        if (title.trim().length() != 0 || title != null) {
+        if (title.trim().length() != 0) {
 
             Note note = new Note(title, description, content, date, Calendar.getInstance().getTime(), locked);
             // Handle item selection
@@ -151,14 +151,17 @@ public class AddOrEditNotes extends AppCompatActivity {
 
 
                     return true;
+                case android.R.id.home:
+                    finish();
+                    return true;
                 case R.id.action_lock:
                     StringBuilder stringBuilder = new StringBuilder();
                     StringBuilder stringBuilder1 = new StringBuilder();
                     if (note.getLocked() == 1) {
                         note.setLocked(0);
                         locked = 0;
-                        stringBuilder.append(note.getTitle() + " was locked");
-                        stringBuilder1.append(note.getTitle() + "could not be locked");
+                        stringBuilder.append(note.getTitle()).append( " was locked");
+                        stringBuilder1.append(note.getTitle()).append( "could not be locked");
                     } else {
                         locked = 1;
                         note.setLocked(1);

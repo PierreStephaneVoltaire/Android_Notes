@@ -30,9 +30,8 @@ public class About extends AppCompatActivity {
         Intent intent;
             switch (item.getItemId()) {
 
-                case R.id.action_home:
-                     intent=new Intent(this,MainActivity.class);
-                    startActivity(intent);
+                case android.R.id.home:
+                     finish();
                     return true;
                 case R.id.action_settings:
                   intent=new Intent(this,Settings.class);

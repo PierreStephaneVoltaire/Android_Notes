@@ -34,7 +34,11 @@ public class AddOrEditNotes extends AppCompatActivity {
      * The Oldtitle.
      */
     String oldtitle;
+    /**
+     * The Locked.
+     */
     int locked;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +51,7 @@ public class AddOrEditNotes extends AppCompatActivity {
         contentedt = (EditText) findViewById(R.id.notecontentedtext);
         Intent intent = getIntent();
         date = null;
-         locked=1;
+        locked = 1;
         setUpEditableNotes(intent);
 
 
@@ -77,7 +81,7 @@ public class AddOrEditNotes extends AppCompatActivity {
                 descriptioedt.setEnabled(false);
                 titleedt.setEnabled(false);
                 contentedt.setEnabled(false);
-                locked=note.getLocked();
+                locked = note.getLocked();
 
                 date = note.getCreateDate();
             }
@@ -105,7 +109,7 @@ public class AddOrEditNotes extends AppCompatActivity {
         String content = contentedt.getText().toString();
         if (title.trim().length() != 0 || title != null) {
 
-            Note note = new Note(title, description, content, date, Calendar.getInstance().getTime(),locked);
+            Note note = new Note(title, description, content, date, Calendar.getInstance().getTime(), locked);
             // Handle item selection
             switch (item.getItemId()) {
                 case R.id.action_edit:
@@ -114,17 +118,21 @@ public class AddOrEditNotes extends AppCompatActivity {
                     contentedt.setEnabled(true);
                     return true;
                 case R.id.action_save:
-                    if (note.getCreateDate() == null) {
-                        note.setCreateDate(Calendar.getInstance().getTime());
+                    if (titleedt.getText().toString().trim().length() != 0) {
+                        if (note.getCreateDate() == null) {
+                            note.setCreateDate(Calendar.getInstance().getTime());
 
-                        result = noteDB.insertNote(note);
+                            result = noteDB.insertNote(note);
+                        } else {
+                            result = noteDB.editNote(note, oldtitle);
+                        }
+                        if (result > 0) {
+                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + " was saved", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + "could not be saved", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        result = noteDB.editNote(note, oldtitle);
-                    }
-                    if (result > 0) {
-                        Toast.makeText(AddOrEditNotes.this, note.getTitle() + " was saved", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(AddOrEditNotes.this, note.getTitle() + "could not be saved", Toast.LENGTH_SHORT).show();
+                        titleedt.setError("Please enter a title");
                     }
                     return true;
                 case R.id.action_delete:
@@ -144,19 +152,30 @@ public class AddOrEditNotes extends AppCompatActivity {
 
                     return true;
                 case R.id.action_lock:
-                    note.setLocked(0);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    StringBuilder stringBuilder1 = new StringBuilder();
+                    if (note.getLocked() == 1) {
+                        note.setLocked(0);
+                        locked = 0;
+                        stringBuilder.append(note.getTitle() + " was locked");
+                        stringBuilder1.append(note.getTitle() + "could not be locked");
+                    } else {
+                        locked = 1;
+                        note.setLocked(1);
+                        stringBuilder.append(note.getTitle() + " was unlocked");
+                        stringBuilder1.append(note.getTitle() + "could not be unlocked");
+                    }
 
                     if (note.getCreateDate() != null) {
 
                         result = noteDB.editNote(note, oldtitle);
                         if (result > 0) {
-                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + " was locked", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddOrEditNotes.this, stringBuilder.toString(), Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(AddOrEditNotes.this, note.getTitle() + "could not be locked", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddOrEditNotes.this, stringBuilder1.toString(), Toast.LENGTH_SHORT).show();
                         }
 
-                    }
-                 else{
+                    } else {
                         Toast.makeText(AddOrEditNotes.this, note.getTitle() + "please save the note before locking it", Toast.LENGTH_SHORT).show();
                     }
 

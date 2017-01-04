@@ -15,10 +15,20 @@ public class Note implements Parcelable {
     private Date CreateDate;
     private Date LastModified;
 
+    /**
+     * Gets locked.
+     *
+     * @return the locked
+     */
     public int getLocked() {
         return locked;
     }
 
+    /**
+     * Sets locked.
+     *
+     * @param locked the locked
+     */
     public void setLocked(int locked) {
         this.locked = locked;
     }
@@ -34,12 +44,13 @@ public class Note implements Parcelable {
 
     /**
      * Instantiates a new Note.
-     *  @param title        the title
+     *
+     * @param title        the title
      * @param description  the description
      * @param content      the content
      * @param createDate   the create date
      * @param lastModified the last modified
-     * @param locked
+     * @param locked       the locked
      */
     public Note(String title, String description, String content, Date createDate, Date lastModified, int locked) {
         this.title = title;

@@ -9,7 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.Date;
 import java.util.ArrayList;
-/**handles Database operations**/
+
+/**
+ * handles Database operations
+ */
 public class NoteDB {
     private Context context;
     private SQLiteOpenHelper openHelper;
@@ -26,6 +29,12 @@ public class NoteDB {
     private final static String COLUMN_BUILDDATE = "buildate";
     private final static String COLUMN_LASTMODIFIEDDATE = "lastmodified";
     private final static String COLUMN_LOCKED = "locked";
+
+    /**
+     * Instantiates a new Note db.
+     *
+     * @param context the context
+     */
     public NoteDB(Context context) {
         this.context = context;
         openHelper = new MyOpenHelper(context);
@@ -43,7 +52,11 @@ public class NoteDB {
                     COLUMN_LOCKED + " INTEGER NOT NULL , " +
                     COLUMN_BUILDDATE + " DATE NOT NULL)";
 
-/**deletes note from the database**/
+    /**
+     * deletes note from the database @param note the note
+     *
+     * @return the int
+     */
     public int removeNotes(Note note) {
         String selection = COLUMN_TITLE + " = ? ";
         String[] selectionArgs = {note.getTitle()};
@@ -52,7 +65,12 @@ public class NoteDB {
         database.close();
         return numberOfRows;
     }
-/**inserts note in the database**/
+
+    /**
+     * inserts note in the database @param note the note
+     *
+     * @return the long
+     */
     public long insertNote(Note note) {
 
         ContentValues cv = new ContentValues();
@@ -74,7 +92,13 @@ public class NoteDB {
         return id;
 
     }
-/**edits existent note **/
+
+    /**
+     * edits existent note  @param note the note
+     *
+     * @param oldtilte the oldtilte
+     * @return the long
+     */
     public long editNote(Note note, String oldtilte) {
         String selection = COLUMN_TITLE + " = ?";
         String[] selectionArgs = {oldtilte};
@@ -96,7 +120,12 @@ public class NoteDB {
         return id;
 
     }
-/**returns the array of all the notes that the user is currently looking for**/
+
+    /**
+     * returns the array of all the notes that the user is currently looking for @param title the title
+     *
+     * @return the note
+     */
     public ArrayList<Note> getNote(String title) {
         Cursor cursor = null;
         if (title != null) {
@@ -135,6 +164,11 @@ public class NoteDB {
 
 
     private class MyOpenHelper extends SQLiteOpenHelper {
+        /**
+         * Instantiates a new My open helper.
+         *
+         * @param context the context
+         */
         public MyOpenHelper(Context context) {
 
             super(context, DATABASE_NAME, null, DATABASE_VERSION);

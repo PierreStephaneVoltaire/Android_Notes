@@ -18,7 +18,8 @@
         <activity
             android:name=".AddOrEditNotes"
             android:label="My Note" />
-        <activity android:name=".About"></activity>
+        <activity android:name=".About" />
+        <activity android:name=".Settings"></activity>
     </application>
 
 </manifest>

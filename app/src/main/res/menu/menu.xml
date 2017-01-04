@@ -13,5 +13,11 @@
             android:icon="@android:drawable/ic_menu_help"
             android:orderInCategory="100"
             android:title="About"/>
+        <item
+            android:id="@+id/action_setting"
+            app:showAsAction="never"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:orderInCategory="110"
+            android:title="setting"/>
 
 </menu>

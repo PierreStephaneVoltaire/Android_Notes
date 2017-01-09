@@ -107,7 +107,7 @@ public class AddOrEditNotes extends AppCompatActivity {
         String title = titleedt.getText().toString();
         String description = descriptioedt.getText().toString();
         String content = contentedt.getText().toString();
-        if (title.trim().length() != 0) {
+
 
             Note note = new Note(title, description, content, date, Calendar.getInstance().getTime(), locked);
             // Handle item selection
@@ -186,10 +186,7 @@ public class AddOrEditNotes extends AppCompatActivity {
                 default:
                     return super.onOptionsItemSelected(item);
             }
-        } else {
-            Toast.makeText(AddOrEditNotes.this, "a title wasn't set", Toast.LENGTH_LONG).show();
-            return super.onOptionsItemSelected(item);
-        }
+
 
     }
 }

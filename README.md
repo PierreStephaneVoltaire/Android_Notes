@@ -19,4 +19,7 @@ for now the user can set only one password.in the near future, i'll try to make 
 <li>
 need to add a feature that enable the user to reset or retreive his/her password in case he/she forgot it
 </li>
+<li>
+#bugs: the date of creation of the notes seem to be incorect  
+</li>
 </ul>
